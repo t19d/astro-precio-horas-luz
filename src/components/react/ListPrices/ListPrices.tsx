@@ -2,8 +2,6 @@ import type { Value } from "@/models/api.model";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import apiService from "@/services/api.service";
-import { useState, useEffect } from "react";
 
 interface ListPricesProps {
 	prices: Value[];
