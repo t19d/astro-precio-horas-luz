@@ -1,4 +1,4 @@
-import { type Data, type ElectricityPrices, type Included, type Value } from "@/models/api.model";
+import { type ElectricityPrices, type Value } from "@/models/api.model";
 import { transformToTwoDigits } from "@/utils/utils";
 
 const URL_PRICES_REAL_TIME_API = import.meta.env.URL_PRICES_REAL_TIME_API;
