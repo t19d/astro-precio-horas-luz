@@ -1,16 +1,25 @@
 ---
+import ListPrices from "@/components/react/ListPrices/ListPrices";
+import type { Value } from "@/models/api.model";
+import apiService from "@/services/api.service.ts";
 
+let listPrices: Value[] = [];
+try {
+	listPrices = await apiService.getElectricityPricesDayAPI();
+} catch (error: any) {
+	console.error(error.message);
+}
 ---
 
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Precio horas luz</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<ListPrices client:only prices={listPrices} />
 	</body>
 </html>
