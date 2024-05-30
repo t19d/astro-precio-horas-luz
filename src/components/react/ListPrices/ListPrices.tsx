@@ -5,6 +5,10 @@ import Grid from "@mui/material/Grid";
 import apiService from "@/services/api.service";
 import { useState, useEffect } from "react";
 
+interface ListPricesProps {
+	prices: Value[];
+}
+
 const Item = styled(Paper)(({ theme }) => ({
 	backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
 	...theme.typography.body2,
@@ -13,16 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
 	color: theme.palette.text.secondary,
 }));
 
-export default function ListPrices() {
-	const [prices, setPrices] = useState<Value[]>([]);
-
-	useEffect(() => {
-		apiService.getElectricityPricesDayAPI().then((prices) => {
-			console.log("🧐 prices", prices);
-			setPrices(prices);
-		});
-	}, []);
-
+export default function ListPrices({ prices }: ListPricesProps) {
 	// Grid MUI
 
 	return (
