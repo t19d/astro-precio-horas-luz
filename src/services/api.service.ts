@@ -1,4 +1,4 @@
-import { type Data, type ElectricityPrices, type Included, type Value } from "@/models/api.model";
+import { type ElectricityPrices, type Value } from "@/models/api.model";
 import { transformToTwoDigits } from "@/utils/utils";
 
 const URL_PRICES_REAL_TIME_API = import.meta.env.URL_PRICES_REAL_TIME_API;
@@ -27,7 +27,15 @@ class ApiService {
 
 	private getElectricityPricesPVPC(electricityPrices: ElectricityPrices): Value[] {
 		const included = electricityPrices.included?.find((included) => included.id === "1001");
-		return included?.attributes?.values ?? [];
+		const prices = included?.attributes?.values;
+		if (prices && prices.length > 0) {
+			for (let i = 0; i < prices.length; i++) {
+				const price = (prices[i].value ?? 1) / 1000;
+				prices[i].value = price;
+			}
+		}
+
+		return prices ?? [];
 	}
 
 	private getFetchOptions(method: "GET" = "GET"): RequestInit {
