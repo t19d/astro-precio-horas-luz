@@ -1,5 +1,6 @@
 ---
 import ListPrices from "@/components/react/ListPrices/ListPrices";
+import LineChartPrices from "@/components/react/charts/LineChartPrices/LineChartPrices";
 import type { Value } from "@/models/api.model";
 import apiService from "@/services/api.service.ts";
 
@@ -20,6 +21,7 @@ try {
 		<title>Precio horas luz</title>
 	</head>
 	<body>
+		<LineChartPrices client:only prices={listPrices} />
 		<ListPrices client:only prices={listPrices} />
 	</body>
 </html>
