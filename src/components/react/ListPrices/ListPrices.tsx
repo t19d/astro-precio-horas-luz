@@ -18,6 +18,7 @@ export default function ListPrices() {
 
 	useEffect(() => {
 		apiService.getElectricityPricesDayAPI().then((prices) => {
+			console.log("🧐 prices", prices);
 			setPrices(prices);
 		});
 	}, []);
@@ -25,13 +26,17 @@ export default function ListPrices() {
 	// Grid MUI
 
 	return (
-		<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-			{prices.map((price: Value, index: number) => (
-				<Grid item xs={4} sm={4} md={4} key={index}>
-					<Item>{price.value}</Item>
-				</Grid>
-			))}
-		</Grid>
+		<div>
+			<h1>List Prices</h1>
+			<div>{prices.length}</div>
+			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+				{prices.map((price: Value, index: number) => (
+					<Grid item xs={4} sm={4} md={4} key={index}>
+						<Item>{price.value}</Item>
+					</Grid>
+				))}
+			</Grid>
+		</div>
 	);
 }
 
