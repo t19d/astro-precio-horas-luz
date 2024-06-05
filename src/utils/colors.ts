@@ -32,10 +32,36 @@ export const COLORS_BY_TAG = {
 	highest_hover: COLORS.red.dark,
 };
 
-export function getColorByTag(tag: "low" | "medium" | "high" | "highest"): string {
+type TagColor = keyof typeof COLORS_BY_TAG;
+
+export function getColorByTag(tag: TagColor): string {
 	return COLORS_BY_TAG[tag] || COLORS_BY_TAG.medium;
 }
 
-export function getHoverColorByTag(tag: "low_hover" | "medium_hover" | "high_hover" | "highest_hover"): string {
+export function getHoverColorByTag(tag: TagColor): string {
 	return COLORS_BY_TAG[tag] || COLORS_BY_TAG.medium_hover;
+}
+
+/**
+ *  Retorna un objeto con las tags del color de precio, en base al precio de luz comparado con la mediana y los valores de la mediana alta y baja.
+ *  @param price Precio de luz actual.
+ *  @param medianPrice Mediana de los precios de luz.
+ *  @param highMedian Mediana alta de los precios de luz.
+ *  @param lowMedian Mediana baja de los precios de luz.
+ *  @returns Un objeto con las tags del color de precio.
+ */
+export function getTagPriceColor(price: number, medianPrice: number, highMedian: number, lowMedian: number): { color: TagColor; colorHover: TagColor } {
+	if (price > medianPrice) {
+		if (price > highMedian) {
+			return { color: "highest", colorHover: "highest_hover" };
+		} else {
+			return { color: "high", colorHover: "high_hover" };
+		}
+	} else {
+		if (price < lowMedian) {
+			return { color: "low", colorHover: "low_hover" };
+		} else {
+			return { color: "medium", colorHover: "medium_hover" };
+		}
+	}
 }

@@ -1,3 +1,5 @@
+import type { Value } from "@/models/api.model";
+
 /**
  * Transforma un número a un string de dos dígitos.
  * @param num El número a transformar.
@@ -38,4 +40,34 @@ export function getPreviousMonthPlusOneDay(): Date {
 	previousMonth.setMonth(today.getMonth() - 1);
 	previousMonth.setDate(previousMonth.getDate() + 1);
 	return previousMonth;
+}
+
+/**
+ * Calcula la mediana de una lista de precios de luz.
+ *
+ * Devuelve la mediana de una lista de precios de luz. Para ello, primero
+ * encuentra el precio máximo y mínimo en la lista, y luego devuelve la
+ * media de ambos valores.
+ *
+ * @param preciosLuz - La lista de precios de luz.
+ * @returns La mediana de la lista de precios de luz.
+ */
+export function getMedianaPreciosLuz(preciosLuz: Value[]): number {
+	let maxPrecioLuz = -Infinity;
+	let minPrecioLuz = Infinity;
+
+	// Recorrer la lista para encontrar el precio máximo y mínimo
+	for (const precio of preciosLuz) {
+		if (precio.value !== undefined && precio.value !== null) {
+			if (precio.value > maxPrecioLuz) {
+				maxPrecioLuz = precio.value;
+			}
+			if (precio.value < minPrecioLuz) {
+				minPrecioLuz = precio.value;
+			}
+		}
+	}
+
+	// Calcular la mediana
+	return (maxPrecioLuz + minPrecioLuz) / 2;
 }

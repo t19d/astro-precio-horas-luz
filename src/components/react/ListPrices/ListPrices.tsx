@@ -1,46 +1,36 @@
 import type { Value } from "@/models/api.model";
 import Grid from "@mui/material/Grid";
-import { getColorByTag, getHoverColorByTag } from "@/utils/colors";
+import { getColorByTag, getHoverColorByTag, getTagPriceColor } from "@/utils/colors";
 import ItemPrice from "./ItemPrice/ItemPrice";
 import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
+import { getMedianaPreciosLuz } from "@/utils/utils";
 
 interface ListPricesProps {
 	prices: Value[];
 }
 
 export default function ListPrices({ prices }: ListPricesProps) {
-	const pricesSortedByValue = [...prices].sort((a, b) => (a.value ?? 0) - (b.value ?? 0)).map((price) => price.value);
+	const medianPrices = getMedianaPreciosLuz(prices);
+	const medianHighPrices = getMedianaPreciosLuz(prices.filter((v: Value) => v.value! >= medianPrices));
+	const medianLowPrices = getMedianaPreciosLuz(prices.filter((v: Value) => v.value! <= medianPrices));
 
-	const lowestPrices = pricesSortedByValue.slice(0, 5);
-	const top3LowestPrices = lowestPrices.slice(0, 3);
-	const highestPrices = pricesSortedByValue.slice(-5).reverse();
-	const top3HighestPrices = highestPrices.slice(0, 3);
+	const pricesSortedByValue = [...prices].sort((a, b) => (a.value ?? 0) - (b.value ?? 0)).map((price) => price.value);
+	const top3LowestPrices = pricesSortedByValue.slice(0, 3);
+	const top3HighestPrices = pricesSortedByValue.slice(-3).reverse();
 
 	const getColorByPrice = (value: number | undefined) => {
-		const lowPriceColorTag = "low";
-		const mediumPriceColorTag = "medium";
-		const highPriceColorTag = "high";
-		const highestPricesColorTag = "highest";
+		if (!value) return "transparent";
 
-		if (lowestPrices.includes(value ?? 0)) return getColorByTag(lowPriceColorTag);
-		if (highestPrices[0] === value) return getColorByTag(highestPricesColorTag);
-		if (highestPrices.includes(value ?? 0)) return getColorByTag(highPriceColorTag);
-
-		return getColorByTag(mediumPriceColorTag);
+		const { color } = getTagPriceColor(value, medianPrices, medianHighPrices, medianLowPrices);
+		return getColorByTag(color);
 	};
 
 	const getHoverColorByPrice = (value: number | undefined) => {
-		const lowPriceColorTag = "low_hover";
-		const mediumPriceColorTag = "medium_hover";
-		const highPriceColorTag = "high_hover";
-		const highestPricesColorTag = "highest_hover";
+		if (!value) return "transparent";
 
-		if (lowestPrices.includes(value ?? 0)) return getHoverColorByTag(lowPriceColorTag);
-		if (highestPrices[0] === value) return getHoverColorByTag(highestPricesColorTag);
-		if (highestPrices.includes(value ?? 0)) return getHoverColorByTag(highPriceColorTag);
-
-		return getHoverColorByTag(mediumPriceColorTag);
+		const { colorHover } = getTagPriceColor(value, medianPrices, medianHighPrices, medianLowPrices);
+		return getColorByTag(colorHover);
 	};
 
 	const getIconByPrice = (value: number | undefined) => {
