@@ -8,6 +8,16 @@ export function transformToTwoDigits(num: number): string {
 }
 
 /**
+ * Transforma un número a un string de cinco decimales.
+ * @param num El número a transformar.
+ * @returns Un string de cinco decimales.
+ */
+export function transformToFiveDecimals(num: number | undefined): string {
+	if (!num) return "---";
+	return num.toFixed(5);
+}
+
+/**
  * Obtiene el día de la semana pasada basado en la fecha actual.
  * @returns Un objeto Date representando el día de la semana pasada.
  */

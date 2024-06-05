@@ -1,0 +1,11 @@
+.hour {
+	font-style: italic;
+}
+
+.price {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 1.25rem;
+	letter-spacing: 2px;
+}
