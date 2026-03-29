@@ -1,23 +1,40 @@
+// Premium warm theme matching Flutter app
+export const THEME = {
+	primary: "#5D4037",
+	primaryDark: "#3E2723",
+	secondary: "#F5F0EB",
+	tertiary: "#BCAA9E",
+	quaternary: "#8D7B74",
+	quinary: "#4E3B31",
+	accentGold: "#D4A853",
+	accentAmber: "#F5C36D",
+	surface: "#FAF7F4",
+	fontMain: "#3D2E27",
+	fontLight: "#9A8A82",
+	fontWhite: "#FFFFFF",
+	cardBg: "#FFFFFF",
+};
+
 export const COLORS = {
 	green: {
-		base: "#0B9A49",
-		light: "#29AB62",
-		dark: "#027936",
+		base: "#27AE60",
+		light: "#2ECC71",
+		dark: "#1E8449",
 	},
 	blue: {
-		base: "#0F85D1",
-		light: "#3697D6",
-		dark: "#066DAF",
+		base: "#2E86DE",
+		light: "#5DADE2",
+		dark: "#2471A3",
 	},
 	orange: {
-		base: "#e67e22",
-		light: "#F49C4D",
-		dark: "#B95E0D",
+		base: "#E67E22",
+		light: "#F5B041",
+		dark: "#CA6F1E",
 	},
 	red: {
-		base: "#c0392b",
-		light: "#D95E51",
-		dark: "#9B2114",
+		base: "#E74C3C",
+		light: "#EC7063",
+		dark: "#CB4335",
 	},
 };
 
@@ -42,14 +59,6 @@ export function getHoverColorByTag(tag: TagColor): string {
 	return COLORS_BY_TAG[tag] || COLORS_BY_TAG.medium_hover;
 }
 
-/**
- *  Retorna un objeto con las tags del color de precio, en base al precio de luz comparado con la mediana y los valores de la mediana alta y baja.
- *  @param price Precio de luz actual.
- *  @param medianPrice Mediana de los precios de luz.
- *  @param highMedian Mediana alta de los precios de luz.
- *  @param lowMedian Mediana baja de los precios de luz.
- *  @returns Un objeto con las tags del color de precio.
- */
 export function getTagPriceColor(price: number, medianPrice: number, highMedian: number, lowMedian: number): { color: TagColor; colorHover: TagColor } {
 	if (price > medianPrice) {
 		if (price > highMedian) {
@@ -65,3 +74,10 @@ export function getTagPriceColor(price: number, medianPrice: number, highMedian:
 		}
 	}
 }
+
+export const PRICE_LEGEND = [
+	{ label: "Precios bajos", color: COLORS.green.base },
+	{ label: "Precios medios", color: COLORS.blue.base },
+	{ label: "Precios altos", color: COLORS.orange.base },
+	{ label: "Precios más altos", color: COLORS.red.base },
+];

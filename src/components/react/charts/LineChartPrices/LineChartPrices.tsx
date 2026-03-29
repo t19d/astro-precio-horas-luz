@@ -1,5 +1,6 @@
 import type { Value } from "@/models/api.model";
 import { transformToTwoDigits } from "@/utils/utils";
+import { THEME } from "@/utils/colors";
 import { LineChart } from "@mui/x-charts/LineChart";
 import type { AxisValueFormatterContext } from "node_modules/@mui/x-charts/models/axis";
 
@@ -29,33 +30,77 @@ export default function LineChartPrices({ prices }: LineChartPricesProps) {
 	};
 
 	return (
-		<LineChart
-			xAxis={[
-				{
-					id: "Horas",
-					label: dateOfChart.toLocaleDateString(),
-					scaleType: "time",
-					data: datesArray,
-					valueFormatter: valueTimeFormatter,
-				},
-			]}
-			series={[
-				{
-					id: "Precios",
-					label: "€/kWh",
-					curve: "linear",
-					data: pricesArray,
-					showMark: false,
-
-					valueFormatter: (v: number | null) =>
-						new Intl.NumberFormat("es-ES", {
-							minimumFractionDigits: 5,
-							maximumFractionDigits: 5,
-						}).format(v ?? 0),
-				},
-			]}
-			grid={{ horizontal: true }}
-			height={400}
-		/>
+		<div
+			style={{
+				background: THEME.cardBg,
+				borderRadius: "20px",
+				padding: "12px",
+				boxShadow: `0 4px 16px ${THEME.primary}0F`,
+			}}
+		>
+			<LineChart
+				xAxis={[
+					{
+						id: "Horas",
+						label: dateOfChart?.toLocaleDateString("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" }),
+						scaleType: "time",
+						data: datesArray,
+						valueFormatter: valueTimeFormatter,
+						tickLabelStyle: {
+							fontSize: 11,
+							fontWeight: 500,
+							fill: THEME.fontLight,
+						},
+					},
+				]}
+				yAxis={[
+					{
+						tickLabelStyle: {
+							fontSize: 11,
+							fontWeight: 500,
+							fill: THEME.fontLight,
+						},
+					},
+				]}
+				series={[
+					{
+						id: "Precios",
+						label: "€/kWh",
+						curve: "catmullRom",
+						data: pricesArray,
+						showMark: false,
+						color: THEME.primary,
+						area: true,
+						valueFormatter: (v: number | null) =>
+							new Intl.NumberFormat("es-ES", {
+								minimumFractionDigits: 5,
+								maximumFractionDigits: 5,
+							}).format(v ?? 0),
+					},
+				]}
+				grid={{ horizontal: true }}
+				height={250}
+				sx={{
+					"& .MuiAreaElement-root": {
+						fill: "url(#premiumGradient)",
+					},
+					"& .MuiLineElement-root": {
+						strokeWidth: 2.5,
+						stroke: THEME.primary,
+					},
+					"& .MuiChartsGrid-line": {
+						stroke: `${THEME.primary}0A`,
+						strokeDasharray: "4 4",
+					},
+				}}
+			>
+				<defs>
+					<linearGradient id="premiumGradient" x1="0" y1="0" x2="0" y2="1">
+						<stop offset="0%" stopColor={THEME.primary} stopOpacity={0.4} />
+						<stop offset="100%" stopColor={THEME.primary} stopOpacity={0.05} />
+					</linearGradient>
+				</defs>
+			</LineChart>
+		</div>
 	);
 }

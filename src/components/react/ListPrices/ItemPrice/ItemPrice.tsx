@@ -1,66 +1,82 @@
-import { experimentalStyled as styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import style from "./ItemPrice.module.css";
 import type { Value } from "@/models/api.model";
-import { transformToFiveDecimals, transformToTwoDigits } from "@/utils/utils";
+import { transformToFiveDecimals } from "@/utils/utils";
+import { parseHourRange } from "@/utils/utils";
 
 interface ItemPriceProps {
 	color: string;
 	colorHover: string;
 	price: Value;
-	icon?: any;
+	icon?: React.ReactNode;
+	badge?: "barata" | "cara";
 }
 
-export default function ItemPrice({ color, colorHover, price, icon }: ItemPriceProps) {
-	const parseTime = (datetime: string | undefined) => {
-		let date = new Date(datetime ?? "");
-		let hours = transformToTwoDigits(date.getHours());
-		let minutes = transformToTwoDigits(date.getMinutes());
-		const initialHour = `${hours}:${minutes}`;
-
-		// 59 minutos depués
-		date.setMinutes(date.getMinutes() + 59);
-		hours = transformToTwoDigits(date.getHours());
-		minutes = transformToTwoDigits(date.getMinutes());
-		const finalHour = `${hours}:${minutes}`;
-
-		return `${initialHour} - ${finalHour}`;
-	};
-
+export default function ItemPrice({ color, colorHover, price, icon, badge }: ItemPriceProps) {
 	return (
-		<Item color={color} colorHover={colorHover}>
-			<span className={style.hour}>{parseTime(price.datetime)}</span>
-			<div className={style.price}>
-				{icon && icon}
-				<span>{transformToFiveDecimals(price.value)} €/kWh</span>
+		<div
+			style={{
+				background: `linear-gradient(135deg, ${color}, ${color}dd)`,
+				borderRadius: "16px",
+				padding: "14px 20px",
+				color: "#fff",
+				display: "flex",
+				alignItems: "center",
+				justifyContent: "space-between",
+				gap: "8px",
+				boxShadow: `0 4px 12px ${color}25`,
+				transition: "all 0.2s ease",
+				cursor: "default",
+			}}
+			onMouseEnter={(e) => {
+				e.currentTarget.style.background = `linear-gradient(135deg, ${colorHover}, ${colorHover}dd)`;
+				e.currentTarget.style.boxShadow = `0 6px 20px ${colorHover}40`;
+				e.currentTarget.style.transform = "translateY(-1px)";
+			}}
+			onMouseLeave={(e) => {
+				e.currentTarget.style.background = `linear-gradient(135deg, ${color}, ${color}dd)`;
+				e.currentTarget.style.boxShadow = `0 4px 12px ${color}25`;
+				e.currentTarget.style.transform = "translateY(0)";
+			}}
+		>
+			<div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+				<span
+					style={{
+						display: "inline-flex",
+						alignItems: "center",
+						justifyContent: "center",
+						width: "28px",
+						height: "28px",
+						background: "rgba(255,255,255,0.15)",
+						borderRadius: "8px",
+						fontSize: "13px",
+					}}
+				>
+					🕐
+				</span>
+				<span style={{ fontSize: "15px", fontWeight: 600, letterSpacing: "0.3px" }}>
+					{parseHourRange(price.datetime)}
+				</span>
+				{badge && (
+					<span
+						style={{
+							background: "rgba(255,255,255,0.2)",
+							padding: "3px 10px",
+							borderRadius: "20px",
+							fontSize: "11px",
+							fontWeight: 700,
+							display: "inline-flex",
+							alignItems: "center",
+							gap: "4px",
+							border: "1px solid rgba(255,255,255,0.15)",
+						}}
+					>
+						{icon}
+						{badge === "barata" ? "Barata" : "Cara"}
+					</span>
+				)}
 			</div>
-		</Item>
+			<span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.2px" }}>
+				{transformToFiveDecimals(price.value)} €/kWh
+			</span>
+		</div>
 	);
 }
-
-interface ItemProps {
-	color?: string;
-	colorHover?: string;
-}
-
-const Item = styled(Paper, {
-	shouldForwardProp: (prop) => prop !== "color" && prop !== "colorHover",
-})<ItemProps>(({ theme, color, colorHover }) => ({
-	...theme.typography.body2,
-	padding: theme.spacing(2),
-	textAlign: "center",
-	color: "white",
-	backgroundColor: color,
-	boxShadow: theme.shadows[3],
-	borderRadius: theme.shape.borderRadius,
-	transition: theme.transitions.create(["background-color", "box-shadow"], {
-		duration: theme.transitions.duration.short,
-	}),
-	display: "flex",
-	justifyContent: "space-between",
-	alignItems: "center",
-	"&:hover": {
-		backgroundColor: colorHover,
-		boxShadow: theme.shadows[5],
-	},
-}));

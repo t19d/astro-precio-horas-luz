@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Playfair+Display:wght@700;800;900&display=swap');
+
+:root {
+	--primary: #5D4037;
+	--primary-dark: #3E2723;
+	--secondary: #F5F0EB;
+	--tertiary: #BCAA9E;
+	--quaternary: #8D7B74;
+	--quinary: #4E3B31;
+	--accent-gold: #D4A853;
+	--accent-amber: #F5C36D;
+	--surface: #FAF7F4;
+	--font-main: #3D2E27;
+	--font-light: #9A8A82;
+	--font-white: #FFFFFF;
+	--card-bg: #FFFFFF;
+
+	--low-price: #27AE60;
+	--medium-price: #2E86DE;
+	--high-price: #E67E22;
+	--highest-price: #E74C3C;
+
+	--radius-sm: 12px;
+	--radius-md: 16px;
+	--radius-lg: 20px;
+	--radius-xl: 32px;
+
+	--shadow-sm: 0 2px 8px rgba(93, 64, 55, 0.08);
+	--shadow-md: 0 4px 16px rgba(93, 64, 55, 0.1);
+	--shadow-lg: 0 8px 32px rgba(93, 64, 55, 0.12);
+
+	--font-display: 'Playfair Display', Georgia, serif;
+	--font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: var(--font-body);
+	background-color: var(--surface);
+	color: var(--font-main);
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3 {
+	font-family: var(--font-display);
+	letter-spacing: -0.02em;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--secondary);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--tertiary);
+	border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--quaternary);
+}
