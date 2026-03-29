@@ -31,52 +31,43 @@ export default function CardResumen({ prices }: CardResumenProps) {
 
 	return (
 		<div style={styles.card}>
-			{/* Top row: Actual + Siguiente */}
 			<div style={styles.topRow}>
 				<CardColumn
-					icon="🕐"
 					label="ACTUAL"
 					hour={actualPrice ? parseHourRange(actualPrice.datetime) : "--h"}
 					price={transformToFiveDecimals(actualPrice?.value)}
 					color={getColor(actualPrice?.value)}
 				/>
-				<div style={styles.dividerVertical} />
+				<div style={styles.divider} />
 				<CardColumn
-					icon="▼"
 					label="SIGUIENTE"
 					hour={nextBestPrice ? parseHourRange(nextBestPrice.datetime) : "--h"}
 					price={transformToFiveDecimals(nextBestPrice?.value)}
 					color={getColor(nextBestPrice?.value)}
 				/>
+				<div style={styles.divider} />
+				<CardColumn
+					label="MEDIA"
+					hour=""
+					price={transformToFiveDecimals(averagePrice)}
+					color={THEME.quaternary}
+				/>
 			</div>
-			<div style={{ height: "10px" }} />
-			{/* Bottom row: Media */}
-			<CardColumn
-				icon="📊"
-				label="MEDIA"
-				hour=""
-				price={transformToFiveDecimals(averagePrice)}
-				color={THEME.quaternary}
-			/>
 		</div>
 	);
 }
 
 interface CardColumnProps {
-	icon: string;
 	label: string;
 	hour: string;
 	price: string;
 	color: string;
 }
 
-function CardColumn({ icon, label, hour, price, color }: CardColumnProps) {
+function CardColumn({ label, hour, price, color }: CardColumnProps) {
 	return (
 		<div style={styles.column}>
-			<div style={styles.labelRow}>
-				<span style={{ fontSize: "14px" }}>{icon}</span>
-				<span style={styles.label}>{label}</span>
-			</div>
+			<span style={styles.label}>{label}</span>
 			{hour && <span style={styles.hour}>{hour}</span>}
 			<span style={{ ...styles.price, color }}>{price}</span>
 			<span style={styles.unit}>€/kWh</span>
@@ -87,56 +78,51 @@ function CardColumn({ icon, label, hour, price, color }: CardColumnProps) {
 const styles: Record<string, React.CSSProperties> = {
 	card: {
 		background: THEME.cardBg,
-		borderRadius: "24px",
-		padding: "24px 24px",
-		boxShadow: `0 6px 24px ${THEME.primary}14`,
+		borderRadius: "18px",
+		padding: "20px 16px",
+		boxShadow: "0 1px 3px rgba(93,64,55,0.06)",
 	},
 	topRow: {
 		display: "flex",
 		alignItems: "flex-start",
 		justifyContent: "space-evenly",
-		gap: "8px",
 	},
-	dividerVertical: {
+	divider: {
 		width: "1px",
-		minHeight: "60px",
-		marginTop: "8px",
-		backgroundColor: `${THEME.primary}14`,
+		alignSelf: "stretch",
+		backgroundColor: `${THEME.primary}0C`,
 		borderRadius: "1px",
+		margin: "4px 0",
 	},
 	column: {
 		flex: 1,
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
-		gap: "4px",
+		gap: "2px",
 		textAlign: "center",
 	},
-	labelRow: {
-		display: "flex",
-		alignItems: "center",
-		gap: "4px",
-	},
 	label: {
-		fontSize: "11px",
-		fontWeight: 700,
+		fontSize: "10px",
+		fontWeight: 600,
 		color: THEME.fontLight,
-		letterSpacing: "1.2px",
+		letterSpacing: "1px",
 		textTransform: "uppercase" as const,
 	},
 	hour: {
-		fontSize: "13px",
-		fontWeight: 500,
-		color: THEME.fontMain,
+		fontSize: "12px",
+		fontWeight: 400,
+		color: THEME.fontLight,
+		marginTop: "1px",
 	},
 	price: {
-		fontSize: "18px",
-		fontWeight: 800,
-		letterSpacing: "-0.3px",
-		fontFamily: "var(--font-body)",
+		fontSize: "20px",
+		fontWeight: 700,
+		letterSpacing: "-0.5px",
+		marginTop: "2px",
 	},
 	unit: {
-		fontSize: "11px",
+		fontSize: "10px",
 		color: THEME.fontLight,
 	},
 };

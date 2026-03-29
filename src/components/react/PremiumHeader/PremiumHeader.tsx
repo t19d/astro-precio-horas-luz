@@ -1,71 +1,113 @@
-import { THEME } from "@/utils/colors";
-import { formatDateDDMMYYYY } from "@/utils/utils";
+import { THEME, TARIFFS } from "@/utils/colors";
 
 interface PremiumHeaderProps {
-	date: Date;
-	title?: string;
-	subtitle?: string;
+	dateStr: string;
+	tariff: string;
 }
 
-export default function PremiumHeader({ date, title = "Precio Horas Luz", subtitle = "Resumen del día" }: PremiumHeaderProps) {
+export default function PremiumHeader({ dateStr, tariff }: PremiumHeaderProps) {
+	const navigate = (key: string, value: string) => {
+		const params = new URLSearchParams(window.location.search);
+		params.set(key, value);
+		window.location.search = params.toString();
+	};
+
 	return (
-		<div style={styles.header}>
-			<div style={styles.topRow}>
-				<div style={styles.iconContainer}>
-					<span style={{ fontSize: "18px" }}>⚡</span>
+		<header style={styles.header}>
+			<div style={styles.inner}>
+				<div style={styles.left}>
+					<div style={styles.logoRow}>
+						<span style={styles.bolt}>⚡</span>
+						<div>
+							<span style={styles.title}>Precio Horas Luz</span>
+							<p style={styles.subtitle}>Resumen del día</p>
+						</div>
+					</div>
 				</div>
-				<span style={styles.title}>{title}</span>
-				<div style={{ flex: 1 }} />
-				<span style={styles.dateBadge}>{formatDateDDMMYYYY(date)}</span>
+				<div style={styles.controlsRow}>
+					<input
+						type="date"
+						value={dateStr}
+						onChange={(e) => navigate("date", e.target.value)}
+						style={styles.control}
+					/>
+					<select
+						value={tariff}
+						onChange={(e) => navigate("tariff", e.target.value)}
+						style={styles.control}
+					>
+						{TARIFFS.map((t) => (
+							<option key={t.code} value={t.code} style={{ color: "#333" }}>
+								{t.name}
+							</option>
+						))}
+					</select>
+				</div>
 			</div>
-			<p style={styles.subtitle}>{subtitle}</p>
-		</div>
+		</header>
 	);
 }
 
 const styles: Record<string, React.CSSProperties> = {
 	header: {
-		background: `linear-gradient(135deg, ${THEME.primary}, ${THEME.primaryDark})`,
-		borderRadius: "0 0 32px 32px",
-		padding: "28px 24px 28px 24px",
-		boxShadow: `0 8px 20px ${THEME.primary}4D`,
+		background: THEME.primaryDark,
+		borderBottom: `1px solid rgba(255,255,255,0.06)`,
+		padding: "0",
 	},
-	topRow: {
+	inner: {
+		maxWidth: "1280px",
+		margin: "0 auto",
+		padding: "16px 24px",
 		display: "flex",
 		alignItems: "center",
-		gap: "12px",
+		justifyContent: "space-between",
+		gap: "16px",
+		flexWrap: "wrap" as const,
 	},
-	iconContainer: {
-		display: "inline-flex",
+	left: {
+		display: "flex",
 		alignItems: "center",
-		justifyContent: "center",
-		width: "36px",
-		height: "36px",
-		background: `${THEME.accentGold}33`,
-		borderRadius: "12px",
+	},
+	logoRow: {
+		display: "flex",
+		alignItems: "center",
+		gap: "10px",
+	},
+	bolt: {
+		fontSize: "18px",
+		opacity: 0.9,
 	},
 	title: {
 		color: "#fff",
-		fontSize: "22px",
-		fontWeight: 800,
-		letterSpacing: "-0.5px",
-		fontFamily: "var(--font-body)",
-	},
-	dateBadge: {
-		color: "#fff",
-		fontSize: "13px",
+		fontSize: "17px",
 		fontWeight: 600,
-		background: "rgba(255,255,255,0.12)",
-		padding: "6px 12px",
-		borderRadius: "24px",
-		border: "1px solid rgba(255,255,255,0.15)",
+		letterSpacing: "-0.2px",
+		display: "block",
+		lineHeight: 1.2,
 	},
 	subtitle: {
-		color: "rgba(255,255,255,0.6)",
-		fontSize: "14px",
+		color: "rgba(255,255,255,0.4)",
+		fontSize: "11px",
+		fontWeight: 400,
+		marginTop: "1px",
+	},
+	controlsRow: {
+		display: "flex",
+		gap: "6px",
+		flexWrap: "wrap" as const,
+	},
+	control: {
+		background: "rgba(255,255,255,0.07)",
+		border: "1px solid rgba(255,255,255,0.1)",
+		borderRadius: "8px",
+		color: "#fff",
+		padding: "6px 10px",
+		fontSize: "12px",
 		fontWeight: 500,
-		letterSpacing: "0.2px",
-		marginTop: "8px",
-		paddingLeft: "2px",
+		fontFamily: "inherit",
+		cursor: "pointer",
+		outline: "none",
+		WebkitAppearance: "none" as any,
+		colorScheme: "dark",
 	},
 };

@@ -10,20 +10,20 @@ interface ListPricesProps {
 
 function SectionTitle({ title }: { title: string }) {
 	return (
-		<div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+		<div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
 			<div
 				style={{
-					width: "3px",
-					height: "22px",
-					background: `linear-gradient(180deg, ${THEME.accentGold}, ${THEME.accentAmber})`,
-					borderRadius: "2px",
+					width: "2px",
+					height: "18px",
+					background: THEME.accentGold,
+					borderRadius: "1px",
 					flexShrink: 0,
 				}}
 			/>
 			<span
 				style={{
-					fontSize: "17px",
-					fontWeight: 700,
+					fontSize: "15px",
+					fontWeight: 600,
 					color: THEME.fontMain,
 					letterSpacing: "-0.2px",
 				}}
@@ -90,14 +90,13 @@ export default function ListPrices({ prices }: ListPricesProps) {
 	);
 
 	const gridStyle: React.CSSProperties = isWide
-		? { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5px" }
-		: { display: "flex", flexDirection: "column", gap: "5px" };
+		? { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px" }
+		: { display: "flex", flexDirection: "column", gap: "4px" };
 
-	const listStyle: React.CSSProperties = { display: "flex", flexDirection: "column", gap: "5px" };
+	const listStyle: React.CSSProperties = { display: "flex", flexDirection: "column", gap: "4px" };
 
 	return (
-		<div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-			{/* Todas las horas — grid en desktop */}
+		<div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
 			<section>
 				<SectionTitle title="Todas las horas" />
 				<div style={gridStyle}>
@@ -105,7 +104,6 @@ export default function ListPrices({ prices }: ListPricesProps) {
 				</div>
 			</section>
 
-			{/* Mejores horas */}
 			<section>
 				<SectionTitle title="Mejores horas" />
 				<div style={listStyle}>
@@ -113,7 +111,6 @@ export default function ListPrices({ prices }: ListPricesProps) {
 				</div>
 			</section>
 
-			{/* Peores horas */}
 			<section>
 				<SectionTitle title="Peores horas" />
 				<div style={listStyle}>

@@ -4,15 +4,9 @@ import { transformToTwoDigits } from "@/utils/utils";
 const URL_PRICES_REAL_TIME_API = import.meta.env.URL_PRICES_REAL_TIME_API;
 
 class ApiService {
-	async getElectricityPricesDayAPI(date: Date = new Date()): Promise<Value[]> {
-		// Tarifa.peninsular: 8741,
-		// Tarifa.canarias: 8742,
-		// Tarifa.baleares: 8743,
-		// Tarifa.ceuta: 8744,
-		// Tarifa.melilla: 8745,
-		const rateType = "8741"; // TODO: Pass as parameter
+	async getElectricityPricesDayAPI(date: Date = new Date(), geoId: string = "8741"): Promise<Value[]> {
 		const dateUrl = `${date.getFullYear()}-${transformToTwoDigits(date.getMonth() + 1)}-${transformToTwoDigits(date.getDate())}`;
-		const url = `${URL_PRICES_REAL_TIME_API}?start_date=${dateUrl}T00:00&end_date=${dateUrl}T23:59&time_trunc=hour&geo_ids=${rateType}`;
+		const url = `${URL_PRICES_REAL_TIME_API}?start_date=${dateUrl}T00:00&end_date=${dateUrl}T23:59&time_trunc=hour&geo_ids=${geoId}`;
 
 		const response = await fetch(url, this.getFetchOptions());
 

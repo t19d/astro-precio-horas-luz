@@ -33,9 +33,9 @@ export default function LineChartPrices({ prices }: LineChartPricesProps) {
 		<div
 			style={{
 				background: THEME.cardBg,
-				borderRadius: "20px",
-				padding: "12px",
-				boxShadow: `0 4px 16px ${THEME.primary}0F`,
+				borderRadius: "16px",
+				padding: "8px 4px 8px 0",
+				boxShadow: "0 1px 3px rgba(93,64,55,0.06)",
 			}}
 		>
 			<LineChart

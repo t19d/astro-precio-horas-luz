@@ -81,3 +81,11 @@ export const PRICE_LEGEND = [
 	{ label: "Precios altos", color: COLORS.orange.base },
 	{ label: "Precios más altos", color: COLORS.red.base },
 ];
+
+export const TARIFFS = [
+	{ code: "8741", name: "Peninsular" },
+	{ code: "8742", name: "Canarias" },
+	{ code: "8743", name: "Baleares" },
+	{ code: "8744", name: "Ceuta" },
+	{ code: "8745", name: "Melilla" },
+];
